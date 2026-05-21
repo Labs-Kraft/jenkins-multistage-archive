@@ -1,28 +1,39 @@
 pipeline {
+
     agent any
 
     stages {
 
         stage('Lint') {
+
             steps {
-                echo "Running Lint Checks... Passed"
+
+                echo 'Running Lint Checks... Passed'
+
             }
         }
 
         stage('Build') {
+
             steps {
+
                 sh 'echo "Build completed successfully" > build-artifact.txt'
+
             }
         }
 
         stage('Archive') {
+
             steps {
+
                 archiveArtifacts artifacts: 'build-artifact.txt', allowEmptyArchive: false
+
             }
         }
     }
 
     post {
+
         success {
 
             sh '''
@@ -37,7 +48,7 @@ pipeline {
             echo "TIMESTAMP=$(date)" >> evaluation-report.txt
             '''
 
-            archiveArtifacts artifacts: 'evaluation-report.txt', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'evaluation-report.txt', allowEmptyArchive: false
         }
     }
 }
